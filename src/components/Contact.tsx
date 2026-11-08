@@ -19,7 +19,7 @@ export function Contact() {
           <li key={s.label}>
             <a
               href={s.href}
-              className="text-muted underline decoration-line transition-colors hover:text-ink hover:decoration-ink"
+              className="inline-block py-2 text-muted underline decoration-line transition-colors hover:text-ink hover:decoration-ink"
               {...(s.href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
             >
               {s.label === "Email" ? profile.email : s.label}

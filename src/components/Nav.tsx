@@ -20,8 +20,8 @@ export function Nav() {
           ))}
         </ul>
         <div className="flex items-center gap-2">
-          <ResumeLink className="btn-line hidden h-9 px-4 sm:inline-flex" />
-          <a href="#contact" className="btn-solid h-9 px-4">Hire me</a>
+          <ResumeLink className="btn-line hidden px-4 sm:inline-flex" />
+          <a href="#contact" className="btn-solid px-4">Hire me</a>
         </div>
       </nav>
     </header>
