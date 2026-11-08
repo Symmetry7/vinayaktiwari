@@ -11,6 +11,7 @@ export default {
         line: "rgb(var(--line) / <alpha-value>)",
         muted: "rgb(var(--muted) / <alpha-value>)",
         faint: "rgb(var(--faint) / <alpha-value>)",
+        gold: "rgb(var(--gold) / <alpha-value>)",
       },
       fontFamily: {
         sans: ['"Geist Variable"', "system-ui", "sans-serif"],

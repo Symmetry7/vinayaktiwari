@@ -2,10 +2,11 @@ import { profile } from "@/content";
 import { ResumeLink } from "./ResumeLink";
 
 const links = [
+  ["About", "#about"],
   ["Work", "#work"],
   ["Services", "#services"],
-  ["Experience", "#experience"],
-  ["Achievements", "#achievements"],
+  ["Stack", "#stack"],
+  ["Extras", "#achievements"],
   ["Contact", "#contact"],
 ] as const;
 

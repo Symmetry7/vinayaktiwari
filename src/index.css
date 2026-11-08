@@ -13,6 +13,7 @@
     --ink: 237 237 237;
     --muted: 161 161 161;
     --faint: 138 138 138;
+    --gold: 214 178 94;
     color-scheme: dark;
   }
   html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
@@ -53,4 +54,83 @@
     transition-delay: calc(var(--i) * 45ms);
   }
   .reveal[data-shown] [data-word] { opacity: 1; transform: none; filter: none; }
+}
+
+@layer components {
+  .card { @apply rounded-2xl border border-line bg-raised/50 transition-[border-color,background-color] duration-300; }
+  .card:hover { border-color: rgb(var(--gold) / 0.45); }
+  .icon-btn { @apply grid size-11 place-items-center rounded-full border border-line text-ink transition-colors hover:border-gold hover:text-gold; }
+
+  /* Terminal cards: crosshair marks on the four corners */
+  .crosshair::before, .crosshair::after {
+    content: ""; position: absolute; width: 14px; height: 14px; pointer-events: none;
+    background:
+      linear-gradient(rgb(var(--gold)), rgb(var(--gold))) center / 1px 100% no-repeat,
+      linear-gradient(rgb(var(--gold)), rgb(var(--gold))) center / 100% 1px no-repeat;
+  }
+  .crosshair::before { top: -7px; left: -7px; }
+  .crosshair::after { bottom: -7px; right: -7px; }
+  .caret { display: inline-block; width: 0.55em; height: 1.05em; margin-left: 2px; vertical-align: -0.15em; background: rgb(var(--gold)); animation: caret 1s steps(1) infinite; }
+  @keyframes caret { 50% { opacity: 0; } }
+
+  /* Tech orbit */
+  .orbit-stage { --tilt: 62deg; perspective: 1400px; container-type: inline-size; }
+  .orbit-title {
+    color: transparent;
+    background: linear-gradient(180deg, #f5f5f5 0%, #9a9a9a 48%, rgb(var(--gold)) 52%, #6b5a2e 100%);
+    -webkit-background-clip: text; background-clip: text;
+    filter: drop-shadow(0 12px 30px rgb(0 0 0 / 0.6));
+    pointer-events: none;
+  }
+  .orbit-ring {
+    position: absolute; inset: 0; transform-style: preserve-3d;
+    animation: orbit var(--dur) linear infinite; animation-direction: var(--dir);
+  }
+  .orbit-ring::before {
+    content: ""; position: absolute; left: 50%; top: 50%;
+    width: calc(var(--rf) * 200cqw); aspect-ratio: 1; translate: -50% -50%;
+    border-radius: 9999px; border: 1px solid rgb(var(--ink) / 0.12);
+  }
+  .orbit-ring > ul { position: absolute; inset: 0; transform-style: preserve-3d; }
+  .orbit-slot {
+    position: absolute; left: 50%; top: 50%; transform-style: preserve-3d;
+    transform: rotate(var(--angle)) translateX(calc(var(--rf) * 100cqw));
+  }
+  .orbit-chip {
+    position: absolute; translate: -50% -50%; transform-style: preserve-3d;
+    display: grid; place-items: center; min-width: 2.75rem; height: 2.75rem; padding: 0 0.6rem;
+    border-radius: 9999px; border: 1px solid rgb(var(--line)); background: rgb(var(--ground) / 0.9);
+    color: rgb(var(--ink)); white-space: nowrap;
+    animation: counter var(--dur) linear infinite; animation-direction: var(--dir);
+    transition: color 200ms ease, border-color 200ms ease;
+  }
+  .orbit-chip:hover { color: rgb(var(--gold)); border-color: rgb(var(--gold) / 0.6); }
+  .orbit-tip {
+    position: absolute; top: calc(100% + 6px); left: 50%; translate: -50% 0; opacity: 0;
+    font: 500 11px/1 "Geist Mono Variable", monospace; color: rgb(var(--gold)); transition: opacity 150ms ease;
+  }
+  .orbit-chip:hover .orbit-tip { opacity: 1; }
+  @keyframes orbit { from { transform: rotateX(var(--tilt)) rotateZ(0deg); } to { transform: rotateX(var(--tilt)) rotateZ(360deg); } }
+  @keyframes counter { from { transform: rotateZ(calc(-1 * var(--angle))) rotateZ(0deg) rotateX(calc(-1 * var(--tilt))); } to { transform: rotateZ(calc(-1 * var(--angle))) rotateZ(-360deg) rotateX(calc(-1 * var(--tilt))); } }
+
+  /* Connect rows */
+  .connect-row { mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent); }
+  .connect-track { animation: marquee 50s linear infinite; }
+  .connect-row[data-reverse] .connect-track { animation-direction: reverse; }
+  @media (hover: hover) and (pointer: fine) { .connect-row:hover .connect-track { animation-play-state: paused; } }
+
+  /* Gold jelly cursor */
+  .gold-cursor {
+    position: fixed; left: -14px; top: -14px; z-index: 60; width: 28px; height: 28px; pointer-events: none;
+    border-radius: 9999px; border: 1.5px solid rgb(var(--gold) / 0.9);
+    background: radial-gradient(circle, rgb(var(--gold) / 0.25), rgb(var(--gold) / 0.05) 70%);
+    box-shadow: 0 0 18px rgb(var(--gold) / 0.35);
+    will-change: transform;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .orbit-ring, .orbit-chip, .connect-track, .caret { animation: none; }
+    .orbit-ring { transform: rotateX(var(--tilt)); }
+    .orbit-chip { transform: rotateZ(calc(-1 * var(--angle))) rotateX(calc(-1 * var(--tilt))); }
+  }
 }
