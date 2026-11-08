@@ -1,3 +1,36 @@
+@import "@fontsource-variable/geist";
+@import "@fontsource-variable/geist-mono";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --ground: 10 10 10;
+    --raised: 20 20 20;
+    --line: 38 38 38;
+    --ink: 237 237 237;
+    --muted: 161 161 161;
+    --faint: 138 138 138;
+    color-scheme: dark;
+  }
+  html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body { @apply bg-ground text-ink font-sans antialiased; text-rendering: optimizeLegibility; }
+  ::selection { background: rgb(var(--ink)); color: rgb(var(--ground)); }
+  :focus-visible { outline: 2px solid rgb(var(--ink)); outline-offset: 3px; border-radius: 4px; }
+  a { text-underline-offset: 4px; }
+  * { scrollbar-color: rgb(var(--line)) transparent; scrollbar-width: thin; }
+  h1, h2, h3 { text-wrap: balance; }
+  p { text-wrap: pretty; }
+}
+
+@layer components {
+  .page { @apply mx-auto w-full max-w-page px-4 sm:px-6; }
+  .btn { @apply inline-flex h-11 items-center gap-2 rounded-full px-5 text-sm font-medium transition-colors duration-200; }
+  .btn-solid { @apply btn bg-ink text-ground hover:bg-white; }
+  .btn-line { @apply btn border border-line text-ink hover:border-faint hover:bg-raised; }
+  .section-title { @apply text-4xl font-semibold tracking-tightest sm:text-5xl; }
+  .data { @apply font-mono text-xs uppercase tracking-wider text-faint; }
+}
