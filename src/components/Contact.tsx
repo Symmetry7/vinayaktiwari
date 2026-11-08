@@ -1,13 +1,12 @@
 import { profile, socials, visibleLinks } from "@/content";
 import { Icon } from "./Icon";
+import { RevealWords } from "./RevealWords";
 import { ResumeLink } from "./ResumeLink";
 
 export function Contact() {
   return (
     <section id="contact" aria-labelledby="contact-title" className="page border-t border-line py-28 sm:py-40">
-      <h2 id="contact-title" className="max-w-4xl text-[clamp(2.5rem,7vw,5rem)] font-semibold leading-none tracking-tightest">
-        Have an AI idea? Let's build it.
-      </h2>
+      <RevealWords as="h2" id="contact-title" className="max-w-4xl text-[clamp(2.5rem,7vw,5rem)] font-semibold leading-none tracking-tightest" text="Have an AI idea? Let’s build it." />
       <p className="mt-6 max-w-xl text-lg text-muted">Tell me what you want to make. Hiring? My resume is one click away.</p>
       <div className="mt-10 flex flex-wrap gap-3">
         <a href={profile.startProjectHref} className="btn-solid">
