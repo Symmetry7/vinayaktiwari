@@ -23,7 +23,7 @@ export function Hero({ badge }: { badge: ReactNode }) {
             <ResumeLink />
           </div>
         </div>
-        <div className="relative h-[420px] lg:col-span-5 lg:h-[620px]">{badge}</div>
+        <div className="relative h-[460px] lg:col-span-5 lg:-mt-28 lg:h-auto lg:self-stretch">{badge}</div>
       </div>
     </section>
   );

@@ -1,6 +1,6 @@
 import { About } from "./components/About";
 import { Achievements } from "./components/Achievements";
-import { BadgeFallback } from "./components/BadgeFallback";
+import { BadgeSlot } from "./components/badge/BadgeSlot";
 import { Contact } from "./components/Contact";
 import { Experience } from "./components/Experience";
 import { Footer } from "./components/Footer";
@@ -14,7 +14,7 @@ const App = () => (
   <>
     <Nav />
     <main>
-      <Hero badge={<BadgeFallback />} />
+      <Hero badge={<BadgeSlot />} />
       <Marquee />
       <About />
       <Projects />
