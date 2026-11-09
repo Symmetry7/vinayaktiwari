@@ -50,7 +50,14 @@ export function createIntroTimeline(root: HTMLElement, onClosing: () => void, on
   tl.set(root, { attr: { "data-scene": "closing" } }, 5.17);
   tl.fromTo(find(".intro-close--top"), { yPercent: 0 }, { yPercent: 100, duration: 0.39, ease: "power3.inOut" }, 5.17);
   tl.fromTo(find(".intro-close--bottom"), { yPercent: 0 }, { yPercent: -100, duration: 0.39, ease: "power3.inOut" }, 5.17);
-  tl.to(root, { autoAlpha: 0, duration: 0.13, ease: "none" }, 5.59);
+  // Once the panels meet, swap the frame behind them for the ready homepage.
+  // Snap the two panels back to the edges so the page is revealed through the opening.
+  tl.set(scene("gotham"), { autoAlpha: 0 }, 5.56);
+  tl.set(root, { attr: { "data-scene": "opening" } }, 5.56);
+  tl.addLabel("opening", 5.56);
+  tl.to(find(".intro-close--top"), { yPercent: 0, duration: 0.18, ease: "power3.out" }, 5.56);
+  tl.to(find(".intro-close--bottom"), { yPercent: 0, duration: 0.18, ease: "power3.out" }, 5.56);
+  tl.set(root, { autoAlpha: 0 }, 5.75);
   tl.set(root, {}, INTRO_DURATION);
   return tl;
 }

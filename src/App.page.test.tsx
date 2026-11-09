@@ -12,9 +12,18 @@ it("shows Vinayak's landing page sections and supplied modern design artwork", (
   expect(screen.getAllByRole("link", { name: /vinayaktiwari732@gmail.com/i }).length).toBeGreaterThan(0);
   expect(screen.getByRole("heading", { name: /work i'm super/i })).toBeInTheDocument();
   for (const image of container.querySelectorAll(".site-shell img")) {
-    expect(image.getAttribute("src")).toMatch(/^\/(reference|hero|images)\//);
+    expect(image.getAttribute("src")).toMatch(/^\/(reference|hero|images|menu|projects)\//);
     expect(image).toHaveAttribute("alt");
   }
+});
+
+it("links the four supplied work cards to distinct project stories", () => {
+  sessionStorage.setItem(INTRO_SESSION_KEY, "1");
+  render(<App />);
+  expect(screen.getByRole("link", { name: /Read about Weapon Detection/i })).toHaveAttribute("href", "/work/weapon-detection");
+  expect(screen.getByRole("link", { name: /Read about InvestIQ/i })).toHaveAttribute("href", "/work/investiq");
+  expect(screen.getByRole("link", { name: /Read about AlgoGym/i })).toHaveAttribute("href", "/work/algogym");
+  expect(screen.getByRole("link", { name: /Read about SYMM-Type/i })).toHaveAttribute("href", "/work/symm-type");
 });
 
 it("opens navigation and keeps section links usable", () => {

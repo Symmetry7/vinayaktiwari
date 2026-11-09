@@ -8,6 +8,7 @@
     "preview": "vite preview",
     "test": "vitest --run",
     "test:intro": "node scripts/intro-qa.mjs",
+    "test:site": "node scripts/site-qa.mjs",
     "format.fix": "prettier --write .",
     "typecheck": "tsc -p tsconfig.app.json"
   },

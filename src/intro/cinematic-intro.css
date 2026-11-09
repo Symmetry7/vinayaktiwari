@@ -11,6 +11,10 @@
   color: var(--intro-bone);
   font-family: var(--font-display);
 }
+.cinematic-intro[data-scene="opening"] { background: transparent; }
+.cinematic-intro[data-scene="opening"] .intro-head,
+.cinematic-intro[data-scene="opening"] .intro-foot,
+.cinematic-intro[data-scene="opening"] .intro-progress { visibility: hidden; }
 .cinematic-intro *, .cinematic-intro *::before, .cinematic-intro *::after { box-sizing: border-box; }
 .intro-scene { position: absolute; inset: 0; overflow: hidden; visibility: hidden; opacity: 0; background: var(--intro-black); }
 .intro-scene--word { display: grid; place-items: center; }

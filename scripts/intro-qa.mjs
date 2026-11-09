@@ -29,8 +29,8 @@ async function inspect(width, height, fullRun) {
     new MutationObserver(() => window.__introScenes.push(root.dataset.scene)).observe(root, { attributes: true, attributeFilter: ["data-scene"] });
     const timer = setInterval(() => {
       const elapsed = Date.now() - Number(root.dataset.startedAt);
-      if (elapsed >= 5200 && elapsed <= 5570) window.__shutterSamples.push({ top: root.querySelector(".intro-close--top").getBoundingClientRect().bottom, bottom: root.querySelector(".intro-close--bottom").getBoundingClientRect().top });
-      if (elapsed > 5570) clearInterval(timer);
+      if (elapsed >= 5200 && elapsed <= 5760) window.__shutterSamples.push({ elapsed, top: root.querySelector(".intro-close--top").getBoundingClientRect().bottom, bottom: root.querySelector(".intro-close--bottom").getBoundingClientRect().top });
+      if (elapsed > 5760) clearInterval(timer);
     }, 16);
   });
   const samples = fullRun
@@ -45,9 +45,12 @@ async function inspect(width, height, fullRun) {
   assert(imageStatus.every(({ loaded }) => loaded), "one or more intro images failed");
   await page.locator(".cinematic-intro").waitFor({ state: "detached", timeout: 3000 });
   const motion = await page.evaluate(() => ({ scenes: window.__introScenes, shutters: window.__shutterSamples }));
-  assert.deepEqual(motion.scenes, ["watch", "eyes", "promise-word", "promise", "calm", "unbothered", "more", "discipline", "focus-word", "focus", "fold", "gotham", "closing"], "intro scene order changed");
+  assert.deepEqual(motion.scenes, ["watch", "eyes", "promise-word", "promise", "calm", "unbothered", "more", "discipline", "focus-word", "focus", "fold", "gotham", "closing", "opening"], "intro scene order changed");
   assert(motion.shutters.length >= 3, "closing shutter was not sampled");
-  assert(motion.shutters.at(-1).top > motion.shutters[0].top && motion.shutters.at(-1).bottom < motion.shutters[0].bottom, "black panels must close toward center");
+  const middle = motion.shutters.reduce((best, sample) => sample.top > best.top ? sample : best);
+  assert(middle.top > motion.shutters[0].top && middle.bottom < motion.shutters[0].bottom, "black panels must close toward center");
+  const reopened = motion.shutters.filter((sample) => sample.elapsed < 5740).at(-1);
+  assert(reopened.top < middle.top && reopened.bottom > middle.bottom, "black panels must reverse open after meeting");
   await page.screenshot({ path: path.join(shots, `${width}-homepage.png`) });
   const state = await page.evaluate(() => ({ overflow: document.body.style.overflow, inert: document.querySelector(".site-shell").inert, horizontalOverflow: document.documentElement.scrollWidth - innerWidth, replay: !!document.querySelector(".replay-intro") }));
   assert.equal(state.inert, false);
@@ -75,7 +78,7 @@ async function inspect(width, height, fullRun) {
     await page.getByRole("button", { name: /replay intro/i }).click();
     await page.waitForFunction(() => document.querySelector(".cinematic-intro")?.dataset.startedAt);
     const replayStarted = Number(await page.locator(".cinematic-intro").getAttribute("data-started-at"));
-    if (seconds === 0.15) {
+    if (seconds === 0.15 || seconds === 3.98) {
       await page.getByRole("button", { name: /sound off/i }).click();
       assert.equal(await page.getByRole("button", { name: /sound on/i }).getAttribute("aria-pressed"), "true");
       await page.getByRole("button", { name: /sound on/i }).click();

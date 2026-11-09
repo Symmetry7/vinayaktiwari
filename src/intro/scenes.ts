@@ -27,4 +27,4 @@ export const INTRO_SCENES = [
   { id: "gotham", at: 4.68, word: null, image: INTRO_ASSETS.gotham },
 ] as const;
 
-export const INTRO_DURATION = 5.72;
+export const INTRO_DURATION = 5.76;
