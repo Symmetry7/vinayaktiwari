@@ -9,7 +9,7 @@ npm install
 npm run dev
 ```
 
-Open **http://localhost:8080/**. The dev server port is configured in `vite.config.ts`.
+Open **http://127.0.0.1:5173/**. The dev server uses port 5173 and stops with an error if another app already occupies it.
 
 ## Check the project
 

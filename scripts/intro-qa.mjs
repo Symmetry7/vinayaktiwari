@@ -4,7 +4,7 @@ import os from "node:os";
 import path from "node:path";
 import { chromium } from "playwright-core";
 
-const origin = process.env.INTRO_QA_ORIGIN || "http://127.0.0.1:8080";
+const origin = process.env.INTRO_QA_ORIGIN || "http://127.0.0.1:5173";
 const chrome = process.env.CHROME_PATH || "C:/Program Files/Google/Chrome/Application/chrome.exe";
 const shots = path.join(os.tmpdir(), "portfolio-intro-qa");
 await mkdir(shots, { recursive: true });
