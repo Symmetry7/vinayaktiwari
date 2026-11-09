@@ -1,68 +1,51 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import App from "./App";
-import { about, profile, tech } from "./content";
+import { INTRO_SESSION_KEY } from "./intro/scenes";
 
-const setup = () => render(<App />);
-
-it("has every section anchor", () => {
-  const { container } = setup();
-  for (const id of ["about", "work", "services", "stack", "achievements", "contact"]) {
-    expect(container.querySelector(`#${id}`)).not.toBeNull();
+it("shows Vinayak's landing page sections and supplied modern design artwork", () => {
+  sessionStorage.setItem(INTRO_SESSION_KEY, "1");
+  const { container } = render(<App />);
+  const sections = [...container.querySelectorAll("main > section")];
+  expect(sections.map((section) => section.id)).toEqual(["top", "quote", "person", "work", "faqs", "hire"]);
+  expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(/Meet Vinayak — Software Engineering, Full-stack, AI/i);
+  expect(screen.getByRole("img", { name: /Vinayak portrait with red HELLO, MEET, and VINAYAK typography/i })).toHaveAttribute("src", "/images/vinayak-modern-design.png");
+  expect(screen.getAllByRole("link", { name: /vinayaktiwari732@gmail.com/i }).length).toBeGreaterThan(0);
+  expect(screen.getByRole("heading", { name: /work i'm super/i })).toBeInTheDocument();
+  for (const image of container.querySelectorAll(".site-shell img")) {
+    expect(image.getAttribute("src")).toMatch(/^\/(reference|hero|images)\//);
+    expect(image).toHaveAttribute("alt");
   }
 });
 
-it("offers the resume at least twice, opening in a new tab", () => {
-  setup();
-  const links = screen.getAllByRole("link", { name: /resume/i });
-  expect(links.length).toBeGreaterThanOrEqual(2);
-  for (const a of links) {
-    expect(a).toHaveAttribute("href", "/resume-vinayak-tiwari.pdf");
-    expect(a).toHaveAttribute("target", "_blank");
-    expect(a.getAttribute("rel")).toMatch(/noopener/);
-  }
+it("opens navigation and keeps section links usable", () => {
+  sessionStorage.setItem(INTRO_SESSION_KEY, "1");
+  render(<App />);
+  fireEvent.click(screen.getByRole("button", { name: "Open menu" }));
+  const nav = screen.getByRole("navigation", { name: "Main navigation" });
+  expect(nav).toBeInTheDocument();
+  fireEvent.click(screen.getByRole("link", { name: "work" }));
+  expect(nav).toHaveAttribute("aria-hidden", "true");
 });
 
-it("start a project mails Vinayak", () => {
-  setup();
-  expect(screen.getAllByRole("link", { name: /start a project/i })[0]).toHaveAttribute("href", profile.startProjectHref);
+it("lets visitors enter and keep a first name", () => {
+  sessionStorage.setItem(INTRO_SESSION_KEY, "1");
+  sessionStorage.removeItem("portfolio-visitor-first-name");
+  render(<App />);
+  fireEvent.click(screen.getByRole("button", { name: "type your first name" }));
+  const input = screen.getByRole("textbox", { name: "your first name" });
+  fireEvent.change(input, { target: { value: "Alex Morgan" } });
+  fireEvent.keyDown(input, { key: "Enter" });
+  expect(screen.getByRole("button", { name: "type your first name" })).toHaveTextContent("{{ Alex }}");
+  expect(sessionStorage.getItem("portfolio-visitor-first-name")).toBe("Alex");
 });
 
-it("has no dead links", () => {
-  const { container } = setup();
-  expect(container.querySelectorAll('a[href="#"], a:not([href])').length).toBe(0);
-});
-
-it("names him as an AI Engineer in the single h1", () => {
-  setup();
-  const h1s = screen.getAllByRole("heading", { level: 1 });
-  expect(h1s).toHaveLength(1);
-  expect(h1s[0]).toHaveTextContent("Vinayak Tiwari");
-  expect(screen.getAllByText(/AI Engineer/i).length).toBeGreaterThan(0);
-});
-
-it("gives every image alt text", () => {
-  const { container } = setup();
-  for (const img of container.querySelectorAll("img")) expect(img.getAttribute("alt")?.trim()).toBeTruthy();
-});
-
-it("about terminals expose their full text", () => {
-  setup();
-  for (const t of Object.values(about)) expect(screen.getByText(t, { selector: ".sr-only" })).toBeInTheDocument();
-});
-
-it("lists every tech in the orbit by name", () => {
-  setup();
-  const list = screen.getByRole("list", { name: /tech stack/i });
-  for (const t of tech) expect(list).toHaveTextContent(t.name);
-});
-
-it("links the featured ICPC certificate", () => {
-  setup();
-  expect(screen.getByRole("link", { name: /ICPC Asia Amritapuri Regionalist 2025/i })).toHaveAttribute("href", "/img/icpc-certificate.webp");
-});
-
-it("connect cards only show links that exist", () => {
-  setup();
-  expect(screen.getAllByRole("link", { name: /LinkedIn/i }).length).toBeGreaterThan(0);
-  expect(screen.queryByRole("link", { name: /GitHub/i })).toBeNull();
+it("can skip and replay the cinematic intro", () => {
+  sessionStorage.removeItem(INTRO_SESSION_KEY);
+  render(<App />);
+  expect(screen.getByRole("dialog", { name: "Cinematic introduction" })).toBeInTheDocument();
+  fireEvent.click(screen.getByRole("button", { name: /skip intro/i }));
+  expect(screen.queryByRole("dialog", { name: "Cinematic introduction" })).not.toBeInTheDocument();
+  expect(sessionStorage.getItem(INTRO_SESSION_KEY)).toBe("1");
+  fireEvent.click(screen.getByRole("button", { name: /replay intro/i }));
+  expect(screen.getByRole("dialog", { name: "Cinematic introduction" })).toBeInTheDocument();
 });

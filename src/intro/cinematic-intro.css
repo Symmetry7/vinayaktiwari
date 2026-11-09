@@ -1,0 +1,75 @@
+.cinematic-intro {
+  --intro-black: #090909;
+  --intro-red: #e21b2d;
+  --intro-bone: #f2f0e8;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--intro-black);
+  color: var(--intro-bone);
+  font-family: var(--font-display);
+}
+.cinematic-intro *, .cinematic-intro *::before, .cinematic-intro *::after { box-sizing: border-box; }
+.intro-scene { position: absolute; inset: 0; overflow: hidden; visibility: hidden; opacity: 0; background: var(--intro-black); }
+.intro-scene--word { display: grid; place-items: center; }
+.intro-word-window { width: 100%; overflow: hidden; text-align: center; }
+.intro-word { display: inline-block; max-width: none; color: var(--intro-red); font: 400 clamp(112px, 27vw, 450px)/.78 var(--font-display); letter-spacing: -.035em; white-space: nowrap; }
+.intro-word--promise-word { font-size: clamp(93px, 22vw, 360px); }
+.intro-word--fold { font-size: clamp(80px, 16vw, 280px); }
+.intro-image { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; }
+.intro-image--eyes { object-fit: contain; background: #000; }
+.intro-scene--unbothered { background: #bfbfbf; }
+.intro-image--unbothered { object-position: center 45%; }
+.intro-scene--discipline { background: var(--intro-bone); }
+.intro-image--discipline, .intro-image--focus, .intro-image--gotham { object-fit: contain; }
+.intro-gotham-rgb { visibility: hidden; opacity: 0; mix-blend-mode: screen; pointer-events: none; filter: saturate(1.3) drop-shadow(3px 0 var(--intro-red)) drop-shadow(-3px 0 #05a7be); }
+.intro-caption { position: absolute; z-index: 1; display: block; color: var(--intro-red); font: 400 clamp(36px, 7vw, 110px)/.84 var(--font-display); text-transform: uppercase; letter-spacing: -.025em; white-space: nowrap; pointer-events: none; }
+.intro-caption--eyes { right: 3%; bottom: 5%; }
+.intro-caption--promise { left: 3%; bottom: 5%; }
+.intro-caption--unbothered { left: 4%; top: 25%; max-width: 56%; white-space: normal; font-size: clamp(43px, 6vw, 94px); }
+.intro-caption--discipline { left: 4%; top: 14%; }
+.intro-caption--focus { left: 3%; bottom: 5%; color: var(--intro-bone); }
+.intro-close { position: absolute; z-index: 3; left: 0; width: 100%; height: 50%; background: #000; pointer-events: none; }
+.intro-close--top { top: -50%; }
+.intro-close--bottom { bottom: -50%; }
+.intro-head, .intro-foot { position: absolute; z-index: 4; left: 24px; right: 24px; display: flex; align-items: center; justify-content: space-between; gap: 18px; pointer-events: none; font: 11px/1.2 var(--font-mono); letter-spacing: .06em; }
+.intro-head { top: 20px; }
+.intro-foot { bottom: 22px; }
+.intro-head > span, .intro-foot > span { padding: 4px 6px; background: #090909a6; }
+.intro-sound, .intro-skip { pointer-events: auto; border: 1px solid var(--intro-bone); border-radius: 0; background: #090909d8; color: var(--intro-bone); padding: 10px 12px; font: 11px/1 var(--font-mono); letter-spacing: .04em; transition: background .15s ease, color .15s ease; }
+.intro-sound:hover, .intro-skip:hover { background: var(--intro-bone); color: var(--intro-black); }
+.intro-sound:focus-visible, .intro-skip:focus-visible { outline: 2px solid var(--intro-red); outline-offset: 3px; }
+.intro-progress { position: absolute; z-index: 4; left: 0; right: 0; bottom: 0; height: 2px; background: #77777755; pointer-events: none; }
+.intro-progress-fill { width: 100%; height: 100%; background: var(--intro-red); transform: scaleX(0); transform-origin: left; }
+.replay-intro { position: fixed; z-index: 45; right: 24px; bottom: 20px; border: 1px solid var(--ink); background: var(--spring); color: var(--ink); padding: 9px 11px; font: 11px/1 var(--font-mono); text-transform: uppercase; letter-spacing: .02em; transition: background .15s ease, color .15s ease; }
+.replay-intro:hover { background: var(--ink); color: var(--spring); }
+
+@media (max-width: 809px) {
+  .intro-head, .intro-foot { left: 12px; right: 12px; font-size: 9px; }
+  .intro-head { top: 14px; }
+  .intro-foot { bottom: 16px; }
+  .intro-foot > span { max-width: 48%; }
+  .intro-sound, .intro-skip { padding: 9px; font-size: 10px; }
+  .intro-word { font-size: clamp(74px, 27vw, 180px); }
+  .intro-word--promise-word { font-size: clamp(60px, 21vw, 140px); }
+  .intro-word--fold { font-size: clamp(48px, 14vw, 92px); }
+  .intro-scene--image .intro-image { object-fit: contain; }
+  .intro-scene--eyes .intro-image--eyes { left: -15%; width: 130%; }
+  .intro-scene--promise .intro-image--promise { left: -18%; width: 136%; }
+  .intro-scene--unbothered .intro-image--unbothered { left: -27%; width: 154%; }
+  .intro-scene--discipline .intro-image--discipline { left: -8%; width: 116%; }
+  .intro-scene--focus .intro-image--focus { left: -25%; width: 150%; }
+  .intro-scene--gotham .intro-image--gotham, .intro-scene--gotham .intro-gotham-rgb { left: -12.5%; width: 125%; }
+  .intro-caption { font-size: clamp(30px, 9vw, 60px); }
+  .intro-caption--eyes, .intro-caption--focus { bottom: 18%; }
+  .intro-caption--promise { bottom: 19%; font-size: 7vw; }
+  .intro-caption--unbothered { top: 17%; left: 5%; max-width: 90%; font-size: clamp(35px, 10vw, 65px); }
+  .intro-caption--discipline { top: 17%; }
+  .replay-intro { right: 12px; bottom: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cinematic-intro { display: none; }
+  .replay-intro { transition: none; }
+}
