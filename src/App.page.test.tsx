@@ -6,7 +6,7 @@ it("shows Vinayak's landing page sections and supplied modern design artwork", (
   sessionStorage.setItem(INTRO_SESSION_KEY, "1");
   const { container } = render(<App />);
   const sections = [...container.querySelectorAll("main > section")];
-  expect(sections.map((section) => section.id)).toEqual(["top", "quote", "person", "work", "faqs", "hire"]);
+  expect(sections.map((section) => section.id)).toEqual(["top", "quote", "person", "work", "experience", "achievements", "faqs", "hire"]);
   expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(/Meet Vinayak — Software Engineering, Full-stack, AI/i);
   expect(screen.getByRole("img", { name: /Vinayak portrait with red HELLO, MEET, and VINAYAK typography/i })).toHaveAttribute("src", "/images/vinayak-modern-design.png");
   expect(screen.getAllByRole("link", { name: /vinayaktiwari732@gmail.com/i }).length).toBeGreaterThan(0);
@@ -32,6 +32,10 @@ it("opens navigation and keeps section links usable", () => {
   fireEvent.click(screen.getByRole("button", { name: "Open menu" }));
   const nav = screen.getByRole("navigation", { name: "Main navigation" });
   expect(nav).toBeInTheDocument();
+  expect(screen.getByRole("link", { name: "experience" })).toHaveAttribute("href", "#experience");
+  expect(screen.getByRole("link", { name: "achievements" })).toHaveAttribute("href", "#achievements");
+  expect(screen.queryByRole("link", { name: "b-roll" })).not.toBeInTheDocument();
+  expect(screen.queryByRole("link", { name: "playground" })).not.toBeInTheDocument();
   fireEvent.click(screen.getByRole("link", { name: "work" }));
   expect(nav).toHaveAttribute("aria-hidden", "true");
 });

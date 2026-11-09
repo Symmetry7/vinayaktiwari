@@ -20,7 +20,12 @@ for (const [width, height] of [[1440, 900], [390, 844]]) {
   assert.equal(await page.locator(".work-card").count(), 4);
   assert.deepEqual(await page.locator(".work-card").evaluateAll(nodes => nodes.map(n => new URL(n.href).pathname)), names.map(n => `/work/${n}`));
   assert(await page.locator(".work-card img").evaluateAll(async nodes => (await Promise.all(nodes.map(async n => (await fetch(n.getAttribute("src"))).status))).every(status => status === 200)), "card art failed to load");
+  assert(await page.locator(".work-card img").evaluateAll(nodes => nodes.every(n => n.getAttribute("src").endsWith(".webp") && n.getAttribute("width") === "1672")), "cards should use enhanced full-resolution art");
+  assert.equal(await page.locator("#experience .experience-list li").count(), 4);
+  assert.equal(await page.locator("#achievements .achievement-list li").count(), 7);
   await page.getByRole("button", { name: "Open menu" }).click();
+  assert.equal(await page.getByRole("link", { name: "experience" }).getAttribute("href"), "#experience");
+  assert.equal(await page.getByRole("link", { name: "achievements" }).getAttribute("href"), "#achievements");
   assert.equal(await page.locator(".nav-photo").getAttribute("src"), "/menu/mr-bean.jpg");
   assert.equal(await page.locator(".bat-flight").count(), width === 1440 ? 1 : 1);
   await page.waitForTimeout(250);
@@ -36,11 +41,27 @@ for (const [width, height] of [[1440, 900], [390, 844]]) {
     await page.waitForTimeout(240);
     assert(await page.locator(".roll-glyph-track").last().evaluate(node => getComputedStyle(node).transform !== "none"), "link letters did not roll");
     assert(await page.locator(".cursor-ball").evaluate(node => node.classList.contains("is-visible")), "cursor ball did not follow pointer");
+    await page.mouse.move(337, 287);
+    assert(await page.locator(".cursor-ball").evaluate(node => { const rect = node.getBoundingClientRect(); return Math.abs(rect.x - 337) < 1 && Math.abs(rect.y - 287) < 1; }), "cursor center lagged behind pointer");
   }
   await page.screenshot({ path: path.join(shots, `${width}-about.png`) });
-  await page.evaluate(width => { const section = document.querySelector("#work"); scrollTo(0, section.offsetTop + (width > 809 ? innerHeight * 1.5 : 0)); }, width);
+  await page.evaluate(() => scrollTo(0, document.querySelector("#work").offsetTop));
   await page.waitForTimeout(700);
+  assert(await page.locator(".work-card img").evaluateAll(nodes => nodes.every(n => n.naturalWidth >= 1600)), "enhanced card art did not decode");
+  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth), 0, `homepage overflows at ${width}px`);
   await page.screenshot({ path: path.join(shots, `${width}-work.png`) });
+  if (width === 1440) {
+    await page.locator(".work-card").first().hover();
+    assert(await page.locator(".cursor-ball").evaluate(node => node.classList.contains("is-card")), "work card did not show the unified cursor badge");
+  }
+  await page.evaluate(() => scrollTo(0, document.querySelector("#experience").offsetTop));
+  await page.waitForTimeout(650);
+  await page.screenshot({ path: path.join(shots, `${width}-experience.png`) });
+  await page.evaluate(() => scrollTo(0, document.querySelector("#achievements").offsetTop));
+  await page.waitForTimeout(650);
+  assert(await page.locator("#experience, #achievements").evaluateAll(nodes => nodes.every(node => !/[ÂÃ]|â€/.test(node.textContent))), "resume copy contains broken punctuation");
+  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth), 0, `resume sections overflow at ${width}px`);
+  await page.screenshot({ path: path.join(shots, `${width}-achievements.png`) });
   for (const slug of names) {
     await page.goto(`${origin}/work/${slug}`, { waitUntil: "networkidle" });
     assert.equal(await page.locator(".cinematic-intro").count(), 0);

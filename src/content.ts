@@ -59,9 +59,9 @@ const email = "vinayaktiwari732@gmail.com";
 export const profile = {
   name: "Vinayak Tiwari",
   role: "AI Engineer" as const,
-  eyebrow: "AI Engineer â€” available for freelance & internships",
-  tagline: "I build AI products â€” LLM apps, RAG systems and AI agents.",
-  oneLiner: "Intern at InseLabs Â· President, AlgoZenith-KIIT Â· CS @ KIIT '28",
+  eyebrow: "AI Engineer — available for freelance & internships",
+  tagline: "I build AI products — LLM apps, RAG systems and AI agents.",
+  oneLiner: "Intern at InseLabs · President, AlgoZenith-KIIT · CS @ KIIT '28",
   about:
     "I'm a computer science student at KIIT, Bhubaneswar, who likes turning messy problems into AI systems that actually ship: retrieval pipelines over real documents, LLM features with validated outputs, and the full-stack apps around them. Competitive programming keeps my fundamentals sharp.",
   email,
@@ -96,7 +96,7 @@ export const projects: Project[] = [
     slug: "investiq",
     name: "InvestIQ",
     hook: "Ask questions of 100-page annual reports and get grounded answers.",
-    dates: "May â€“ Jun 2025",
+    dates: "May – Jun 2025",
     stack: ["Python", "FastAPI", "Azure OpenAI", "LangChain", "PostgreSQL"],
     points: [
       "RAG platform for annual-report Q&A with company- and year-filtered retrieval on Azure AI Search.",
@@ -112,7 +112,7 @@ export const projects: Project[] = [
     dates: "InseLabs internship",
     stack: ["AI pipeline", "Embeddings", "Workflow automation"],
     points: [
-      "6-stage identity-protection workflow: facial enrollment, embedding, web monitoring, matching, 0â€“100 risk scoring and takedown drafting.",
+      "6-stage identity-protection workflow: facial enrollment, embedding, web monitoring, matching, 0–100 risk scoring and takedown drafting.",
       "AI application workflows and product integrations, from business need to shipped feature.",
     ],
     note: "Internship work at InseLabs",
@@ -121,7 +121,7 @@ export const projects: Project[] = [
     slug: "algogym",
     name: "AlgoGym",
     hook: "A DSA training platform with an AI tutor that adapts to your Codeforces progress.",
-    dates: "Aug â€“ Sep 2024",
+    dates: "Aug – Sep 2024",
     stack: ["Next.js", "TypeScript", "Gemini API", "Supabase", "PostgreSQL"],
     points: [
       "Next.js 16, React 19 and TypeScript platform with 8 training tracks, topic/rating filters and verified Codeforces progress.",
@@ -134,7 +134,7 @@ export const projects: Project[] = [
     slug: "weapon-detection",
     name: "Weapon Detection",
     hook: "Real-time weapon detection on live webcam and CCTV feeds.",
-    dates: "Oct 2024 â€“ Jan 2025",
+    dates: "Oct 2024 – Jan 2025",
     stack: ["Python", "OpenCV", "Haar Cascade"],
     points: [
       "Detects pistols, rifles and sniper weapons using a custom dataset of 255+ images.",
@@ -147,7 +147,7 @@ export const projects: Project[] = [
 export const services: Service[] = [
   {
     title: "AI chatbots & RAG over your data",
-    body: "Assistants that answer from your PDFs, docs or database â€” with sources, not guesses.",
+    body: "Assistants that answer from your PDFs, docs or database — with sources, not guesses.",
     proof: "investiq",
   },
   {
@@ -157,7 +157,7 @@ export const services: Service[] = [
   },
   {
     title: "Full-stack AI web apps",
-    body: "React/Next.js front ends, FastAPI or Supabase back ends, auth and deployment â€” end to end.",
+    body: "React/Next.js front ends, FastAPI or Supabase back ends, auth and deployment — end to end.",
     proof: "algogym",
   },
   {
@@ -180,7 +180,7 @@ export const roles: Role[] = [
   {
     title: "President",
     org: "AlgoZenith-KIIT",
-    dates: "Feb 2025 â€“ Present",
+    dates: "Feb 2025 – Present",
     points: [
       "Collaborated with a team of 50 programmers on problem-solving strategies for contests.",
       "Teach Data Structures classes and run post-contest discussions.",
@@ -189,7 +189,7 @@ export const roles: Role[] = [
   },
   {
     title: "Academic Associate & Web Developer",
-    org: "IIWCPC â€” International India Women's Programming Contest",
+    org: "IIWCPC — International India Women's Programming Contest",
     points: [
       "Authored and reviewed DSA problems with the IIT Kanpur team.",
       "Headed the Contest Integrity Team for fairness and security.",
@@ -199,7 +199,7 @@ export const roles: Role[] = [
   {
     title: "B.Tech, Computer Science",
     org: "Kalinga Institute of Industrial Technology",
-    dates: "2024 â€“ 2028",
+    dates: "2024 – 2028",
     points: [],
   },
 ];
@@ -212,12 +212,12 @@ export const achievements: Achievement[] = [
     featured: true,
     image: "/img/icpc-certificate.webp",
   },
-  { title: "Codeforces Specialist", detail: "Rating 1430 Â· top 8%" },
-  { title: "CodeChef 1513", detail: "Top 10% Â· Symmetry9" },
-  { title: "AIR 1 â€” Code O Olympic", detail: "IIIT Bhubaneswar" },
-  { title: "Rank 1 â€” Geek Clash", detail: "GFG-KIIT" },
-  { title: "Rank 1 of 100 teams â€” The Last Test Case", detail: "Offline contest, GFG-KIIT" },
-  { title: "Finalist â€” Shaastra Programming Contest", detail: "IIT Madras" },
+  { title: "Codeforces Specialist", detail: "Rating 1430 · top 8%" },
+  { title: "CodeChef 1513", detail: "Top 10% · Symmetry9" },
+  { title: "AIR 1 — Code O Olympic", detail: "IIIT Bhubaneswar" },
+  { title: "Rank 1 — Geek Clash", detail: "GFG-KIIT" },
+  { title: "Rank 1 of 100 teams — The Last Test Case", detail: "Offline contest, GFG-KIIT" },
+  { title: "Finalist — Shaastra Programming Contest", detail: "IIT Madras" },
 ];
 
 export const socials: SocialLink[] = [
